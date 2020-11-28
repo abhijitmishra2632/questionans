@@ -15,17 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cosmos.model.Question;
-import com.cosmos.service.QuestionServide;
+import com.cosmos.service.QuestionService;
 
 @RestController
 @RequestMapping("/question")
 public class QuestionController {
 	@Autowired
-	private QuestionServide questionService;
+	private QuestionService questionService;
 	
-	@GetMapping("/{questionId}")
-	public Question getQuestionById(@PathVariable int questionId){
-		return questionService.getQuestionById(questionId);
+	@GetMapping("/{questionseq}")
+	public Question getQuestionById(@PathVariable Long questionseq){
+		return questionService.getQuestionById(questionseq);
 	}
 	@GetMapping("/technology/{technology}")
 	public List<Question> getQuestionByTechnology(@PathVariable String technology){
@@ -39,13 +39,29 @@ public class QuestionController {
 	public Question saveQuestion(@RequestBody Question question) {
 		return questionService.saveQuestion(question);
 	}
-	@PutMapping("/{questionId}")
-	public Question updateQuestion(@PathVariable int questionId,@RequestBody Question question) {
-		return questionService.updateQuestion(questionId,question);
+	@PostMapping("/clone")
+	public Question cloneQuestion(@RequestBody Question question) {
+		return questionService.cloneQuestion(question);
 	}
-	@DeleteMapping("/{questionId}")
-	public Response deleteQuiestion(@PathVariable int questionId) {
-		return questionService.deleteQuestion(questionId);
+	@PutMapping("/{questionseq}")
+	public Question updateQuestion(@PathVariable Long questionseq,@RequestBody Question question) {
+		return questionService.updateQuestion(questionseq,question);
+	}
+	@DeleteMapping("/{questionseq}")
+	public void deleteQuiestion(@PathVariable Long questionseq) {
+		questionService.deleteQuestion(questionseq);
+	}
+	@GetMapping("/deleted")
+	public List<Question> getAllDeletedQuestions(){
+		return questionService.getAllDeletedQuestions();
+	}
+	@GetMapping("/undo/{questionseq}")
+	public void undoQuestionById(@PathVariable Long questionseq){
+		questionService.undoQuestionById(questionseq);
+	}
+	@DeleteMapping("permanent/{questionseq}")
+	public void deleteQuiestionPermanently(@PathVariable Long questionseq) {
+		questionService.deleteQuiestionPermanently(questionseq);
 	}
 
 }

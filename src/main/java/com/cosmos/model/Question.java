@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "questiondb")
 public class Question {
 	@Id
+	private Long questionseq;
 	private String question;
 	private String technology;
 	private String subject;
@@ -17,6 +18,16 @@ public class Question {
 	private boolean program;
 	public Question() {
 		super();
+	}
+
+
+	public Long getQuestionseq() {
+		return questionseq;
+	}
+
+
+	public void setQuestionseq(Long questionseq) {
+		this.questionseq = questionseq;
 	}
 
 
